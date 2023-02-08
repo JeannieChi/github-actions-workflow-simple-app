@@ -24,7 +24,7 @@ jobs:
           # Container registry username
           username: 'jeademo1927'
           # Container registry password
-          password: 't5RqbPntSKuFo3SH8JPiv7kUq+Ld14lS8V43bsOLgL+ACRA9BC9C'
+          password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
           # Container registry server url
           login-server: 'jeademo1927.azurecr.io'
     
@@ -53,9 +53,9 @@ jobs:
       - name: Azure login
         uses: azure/login@v1.4.6
         with:
-          client-id: '1d3cbb92-6181-4b01-b52a-ee537efed1d0'
-          tenant-id: '91c653f5-2846-431d-98a3-5ddacd2a7283'
-          subscription-id: '6bed5a7b-ea2a-447e-9d41-f0615453807b'
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         
       - name: Setup kubelogin
         uses: Azure/use-kubelogin@v1
@@ -70,7 +70,7 @@ jobs:
           # AKS Cluster Name
           cluster-name: 'jeak8s1927'
           # AKS Cluster Subscription
-          subscription: '6bed5a7b-ea2a-447e-9d41-f0615453807b'
+          subscription: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           # Get cluster admin credentials. Values: true or false
           admin: 'false'
           # Enables kubelogin for non-admin user scenario. Values: true or false
@@ -80,7 +80,7 @@ jobs:
       - name: envsubst-action
         uses: danielr1996/envsubst-action@1.1.0
         env:
-          MONGODB_URI: 'mongodb://jeacosmos1928:ERkZmFPqPSD8jE7dkemesb5ZnEtJLqNGSBKbpE53KK4V1PBn0mrBDKFazbS5O8szmB6airUrIbx9ACDbDyiZdA==@jeacosmos1928.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@jeacosmos1928@'
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
           CONTAINER_NAME: hello-world-app:${{ github.sha }}
           AZURE_CONTAINER_REGISTRY: jeademo1927.azurecr.io
         with:
