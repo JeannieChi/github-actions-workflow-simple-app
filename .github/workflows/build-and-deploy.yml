@@ -53,7 +53,7 @@ jobs:
       - name: Azure login
         uses: azure/login@v1.4.6
         with:
-          client-id: '558be29a-ed55-48a3-83fa-7e64f270c7e8'
+          client-id: '1d3cbb92-6181-4b01-b52a-ee537efed1d0'
           tenant-id: '91c653f5-2846-431d-98a3-5ddacd2a7283'
           subscription-id: '6bed5a7b-ea2a-447e-9d41-f0615453807b'
         
