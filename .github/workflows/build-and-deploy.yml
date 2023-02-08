@@ -78,7 +78,7 @@ jobs:
           
       # Substitute environment variables in a file
       - name: envsubst-action
-        uses: danielr1996/envsubst-action@1.1.0
+        uses: danielr1996/envsubst-action@1.0.0
         env:
           MONGODB_URI: 'mongodb://jeacosmos1928:ERkZmFPqPSD8jE7dkemesb5ZnEtJLqNGSBKbpE53KK4V1PBn0mrBDKFazbS5O8szmB6airUrIbx9ACDbDyiZdA==@jeacosmos1928.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@jeacosmos1928@'
           CONTAINER_NAME: hello-world-app:${{ github.sha }}
