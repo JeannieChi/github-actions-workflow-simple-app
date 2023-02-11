@@ -1,0 +1,100 @@
+name: Build and Deploy to Azure Env
+
+env:
+  AZURE_CONTAINER_REGISTRY: 'acr1927.azurecr.io'
+  
+run-name: ${{ github.actor }} is building image from GitHub Actions 🚀
+
+on:
+  push:
+    branches: ['master']
+  workflow_dispatch:
+  
+permissions:
+  contents: read
+  
+jobs:
+  buildImage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - 
+        name: Login Azure acr
+        uses: azure/docker-login@v1
+        with:
+          login-server: acr1927.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+          
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: acr1927.azurecr.io/hellojeannie/:${{ github.sha }} 
+        
+    deployToAKS:
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      
+    runs-on: ubuntu-latest
+    needs: [buildImage]
+    environment: Production
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:    
+           client-id: 'b36c9338-6631-439a-9797-c3eb1689adc4'
+           tenant-id: '91c653f5-2846-431d-98a3-5ddacd2a728'
+           subscription-id: '6bed5a7b-ea2a-447e-9d41-f0615453807b'
+           
+      - name: Setup kubelogin 
+        uses: azure/use-kubelogin@v1
+        with:
+          kubelogin-version: 'v0.0.24'
+      
+      - name: Azure Kubernetes set context
+        uses: azure/aks-set-context@v3
+          with:
+             resource-group: 'jenkins-rg'
+             cluster-name: 'jeak8s1927'
+             admin: 'false'
+             use-kubelogin: 'true'
+             
+      - name: envsubst-action
+        uses: danielr1996/envsubst-action@1.1.0
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          CONTAINER_NAME: hellojeannie/:${{ github.sha }} 
+          AZURE_CONTAINER_REGISTRY: acr1927.azurecr.io
+        with:
+          input: kubernetes/hello-world-deployment.yaml
+          output: hello-world-deployment.yaml 
+
+        - name: Deploys application
+        uses: Azure/k8s-deploy@v4
+           with:
+              action: deploy
+              manifests: |
+                 kubernetes/hello-world-service.yaml
+                 hello-world-deployment.yaml 
+              images: |
+                 acr1927.azurecr.io/hellojeannie/:${{ github.sha }}     
+     
+     
+     
+     
+     
+     
+     
+          
+          
