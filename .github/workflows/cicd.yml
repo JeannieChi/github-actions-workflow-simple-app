@@ -65,11 +65,11 @@ jobs:
       
       - name: Azure Kubernetes set context
         uses: azure/aks-set-context@v3
-          with:
-             resource-group: 'jenkins-rg'
-             cluster-name: 'jeak8s1927'
-             admin: 'false'
-             use-kubelogin: 'true'
+        with:
+           resource-group: 'jenkins-rg'
+           cluster-name: 'jeak8s1927'
+           admin: 'false'
+           use-kubelogin: 'true'
              
       - name: envsubst-action
         uses: danielr1996/envsubst-action@1.1.0
