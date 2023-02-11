@@ -39,7 +39,7 @@ jobs:
           push: true
           tags: acr1927.azurecr.io/hellojeannie/:${{ github.sha }} 
         
-    deployToAKS:
+  deployToAKS:
     permissions:
       actions: read
       contents: read
@@ -51,6 +51,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+     
       - name: Azure Login
         uses: Azure/login@v1.4.6
         with:    
