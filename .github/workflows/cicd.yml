@@ -68,6 +68,7 @@ jobs:
         with:
            resource-group: 'jenkins-rg'
            cluster-name: 'jeak8s1927'
+           subscription-id: '6bed5a7b-ea2a-447e-9d41-f0615453807b'
            admin: 'false'
            use-kubelogin: 'true'
              
