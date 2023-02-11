@@ -74,21 +74,22 @@ jobs:
              
       - name: envsubst-action
         uses: danielr1996/envsubst-action@1.1.0
-        MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        CONTAINER_NAME: jeann123/:${{ github.sha }} 
-        AZURE_CONTAINER_REGISTRY: acr1927.azurecr.io
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          CONTAINER_NAME: jeann123/:${{ github.sha }} 
+          AZURE_CONTAINER_REGISTRY: acr1927.azurecr.io
         with:
           input: kubernetes/hello-world-deployment.yaml
           output: hello-world-deployment.yaml 
 
-        - name: Deploys application
-        uses: Azure/k8s-deploy@v4
-           with:
-              action: deploy
-              manifests: |
+       - name: Deploys application
+         uses: Azure/k8s-deploy@v4
+         with:
+             action: deploy
+             manifests: |
                  kubernetes/hello-world-service.yaml
                  hello-world-deployment.yaml 
-              images: |
+             images: |
                  acr1927.azurecr.io/hellojeannie/:${{ github.sha }}     
      
      
