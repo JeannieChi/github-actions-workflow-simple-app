@@ -22,11 +22,11 @@ jobs:
         uses: Azure/docker-login@v1
         with:
           # Container registry username
-          username: 'jeademo1927'
+          username: 'acr1927'
           # Container registry password
           password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
           # Container registry server url
-          login-server: 'jeademo1927.azurecr.io'
+          login-server: 'acr1927.azurecr.io'
     
       - name: Build and push
         uses: docker/build-push-action@v4
